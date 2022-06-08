@@ -9,16 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Simple Build Print Statement
-      run: echo "This is a Build Job"
+        run: echo "This is a Build Job"
 
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Simple Test Print Statement
-      run: echo "This is a Test Job"
+        run: echo "This is a Test Job"
 
 
   deployment:
@@ -35,13 +34,13 @@ jobs:
           ls -la
 
       - name: Copy the Index.html to Ubuntu Server
-      uses: marcodallasanta/ssh-scp-deploy@v1.2.0
-      with:
-        local: 'index.html'
-        remote: '~/index.html'
-        host: ${{secrets.HOST}}
-        user: ${{secrets.USER}}
-        key: ${{secrets.KEY}}
-        pre_upload: sudo rm -rf /var/www/html/index.html
-        post_upload: sudo mv ~/index.html var/www/html/index.html
-        ssh_options: -o StrictHostKeyChecking-no
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          local: 'index.html'
+          remote: '~/index.html'
+          host: ${{secrets.HOST}}
+          user: ${{secrets.USER}}
+          key: ${{secrets.KEY}}
+          pre_upload: sudo rm -rf /var/www/html/index.html
+          post_upload: sudo mv ~/index.html var/www/html/index.html
+          ssh_options: -o StrictHostKeyChecking-no
