@@ -42,5 +42,5 @@ jobs:
           user: ${{secrets.USER}}
           key: ${{secrets.KEY}}
           pre_upload: sudo rm -rf /var/www/html/index.html
-          post_upload: sudo mv ~/index.html var/www/html/index.html
+          post_upload: sudo mv ~/index.html /var/www/html/index.html
           ssh_options: -o StrictHostKeyChecking-no
