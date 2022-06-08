@@ -13,6 +13,10 @@ jobs:
     env:
       REPO_AUTHOR: Jimmy
     steps:
+    
+      - name: Checkout the Repo
+        uses: actions/checkout@v3
+
       - name: Simple Build Print Statement
         run: |
           echo "This is a Build Job"
@@ -32,6 +36,7 @@ jobs:
           path: dev_config
 
   test:
+    if: github.repository == 'hobblethepirate/intel6june2022'
     runs-on: ubuntu-latest
     steps:
       - name: Simple Test Print Statement
@@ -53,15 +58,32 @@ jobs:
           
       - name: Download the Build.txt file
         uses: actions/download-artifact@v3
+        with:
+          name: buildfile
+
+      - name: Download the devconfig
+        uses: actions/download-artifact@v3
+        with:
+          name: devconfig
 
       - name: Copy the Index.html to Ubuntu Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: 'index.html'
-          remote: '~/index.html'
+          local: 'dev_config'
+          remote: '~/dev_config'
           host: ${{secrets.HOST}}
           user: ${{secrets.USER}}
           key: ${{secrets.KEY}}
-          pre_upload: sudo rm -rf /var/www/html/index.html
-          post_upload: sudo mv ~/index.html /var/www/html/index.html
           ssh_options: -o StrictHostKeyChecking=no
+
+      # - name: Copy the Index.html to Ubuntu Server
+      #   uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+      #   with:
+      #     local: 'index.html'
+      #     remote: '~/index.html'
+      #     host: ${{secrets.HOST}}
+      #     user: ${{secrets.USER}}
+      #     key: ${{secrets.KEY}}
+      #     pre_upload: sudo rm -rf /var/www/html/index.html
+      #     post_upload: sudo mv ~/index.html /var/www/html/index.html
+      #     ssh_options: -o StrictHostKeyChecking=no
